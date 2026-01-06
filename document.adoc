@@ -11,7 +11,7 @@
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada (Mock Setup) | Condiciones de Salida (Verificaciones) | Resultado Esperado
 
 | TC-CR-01
-| SaveMessage_ValidMessage_AddsMessage
+| SaveMessageValidMessageAddsMessage
 | username = "seth", idDestino = 99, texto = "Hola mundo"
 | usuarios contiene un usuario con id=5 y perfil username="seth". +
 mensajes está vacío. +
@@ -20,7 +20,7 @@ mockDb.usuarios y mockDb.mensajes devuelven estas listas.
 | Éxito: el mensaje se agrega correctamente
 
 | TC-CR-02
-| SaveMessage_ValidMessage_CallsSaveChangesOnce
+| SaveMessageValidMessageCallsSaveChangesOnce
 | username = "seth", idDestino = 3, texto = "mensaje"
 | usuarios contiene un usuario con id=10. +
 mensajes está vacío. +
@@ -30,7 +30,7 @@ mockDb.SaveChanges() está marcado como Verifiable.
 | Éxito: la operación guarda cambios en BD.
 
 | TC-CR-03
-| SaveMessage_EmptyUsername_ThrowsArgumentException
+| SaveMessageEmptyUsernameThrowsArgumentException
 | username = "", idDestino = 2, texto = "Hola"
 | mensajes lista vacía. +
 Instancia real de ChatRepository, BD simulada.
@@ -38,21 +38,21 @@ Instancia real de ChatRepository, BD simulada.
 | Excepción controlada: datos inválidos.
 
 | TC-CR-04
-| SaveMessage_UserNotFound_ThrowsInvalidOperationException
+| SaveMessageUserNotFoundThrowsInvalidOperationException
 | username = "ghost", idDestino = 2, texto = "hola"
 | usuarios está vacío (no existe "ghost").
 | Se lanza InvalidOperationException al no encontrarse el remitente.
 | Excepción controlada: usuario inexistente.
 
 | TC-CR-05
-| GetChatByUsername_EmptySender_ThrowsArgumentException
+| GetChatByUsernameEmptySenderThrowsArgumentException
 | sender = "", recipient = "dest"
 | Sin BD necesaria, solo validación de parámetros.
 | Se lanza ArgumentException por sender vacío.
 | Excepción controlada.
 
 | TC-CR-06
-| GetChatByUsername_EmptyRecipient_ThrowsArgumentException
+| GetChatByUsernameEmptyRecipientThrowsArgumentException
 | sender = "sender", recipient = ""
 | BD simulada contiene usuario "sender". +
 mockRepo.CreateDb() devuelve este contexto.
@@ -60,7 +60,7 @@ mockRepo.CreateDb() devuelve este contexto.
 | Excepción controlada.
 
 | TC-CR-07
-| GetChatByUsername_SenderNotFound_ThrowsInvalidOperationException
+| GetChatByUsernameSenderNotFoundThrowsInvalidOperationException
 | sender = "ghost", recipient = "dest"
 | usuarios está vacío. +
 mockDb.usuarios devuelve lista vacía.
@@ -68,7 +68,7 @@ mockDb.usuarios devuelve lista vacía.
 | Excepción controlada.
 
 | TC-CR-08
-| GetChatByUsername_RecipientNotFound_ThrowsInvalidOperationException
+| GetChatByUsernameRecipientNotFoundThrowsInvalidOperationException
 | sender = "sender", recipient = "noExiste"
 | usuarios solo contiene al sender. +
 Recipient no existe.
@@ -76,7 +76,7 @@ Recipient no existe.
 | Excepción controlada.
 
 | TC-CR-09
-| GetChatByUsername_NoMessages_ReturnsEmptyList
+| GetChatByUsernameNoMessagesReturnsEmptyList
 | sender="sender", recipient="dest"
 | BD tiene ambos usuarios. +
 mensajes está vacío.
@@ -84,7 +84,7 @@ mensajes está vacío.
 | Éxito: sin mensajes
 
 | TC-CR-10
-| GetChatByUsername_ReturnsMessagesOrderedAndMappedCorrectly
+| GetChatByUsernameReturnsMessagesOrderedAndMappedCorrectly
 | sender="sender", recipient="dest"
 | BD tiene ambos usuarios. +
 mensajes contiene dos mensajes con fechas diferentes. +
@@ -96,7 +96,7 @@ Otro dest → sender.
 | Éxito: mensajes ordenados y mapeados correctamente.
 
 | TC-CR-11
-| GetIdByUsername_NullUsername_ThrowsArgumentException
+| GetIdByUsernameNullUsernameThrowsArgumentException
 | username = null
 | No requiere BD. +
 Invocación directa.
@@ -104,21 +104,21 @@ Invocación directa.
 | Excepción controlada.
 
 | TC-CR-12
-| GetIdByUsername_UserNotFound_ThrowsInvalidOperationException
+| GetIdByUsernameUserNotFoundThrowsInvalidOperationException
 | username = "ghost"
 | usuarios vacíos.
 | Se lanza InvalidOperationException.
 | Excepción controlada.
 
 | TC-CR-13
-| GetIdByUsername_ExactMatch_ReturnsUserId
+| GetIdByUsernameExactMatchReturnsUserId
 | username = "seth"
 | usuarios contiene id=10 con username "seth".
 | Se verifica que el ID retornado es 10.
 | Éxito: coincidencia exacta encontrada.
 
 | TC-CR-14
-| GetIdByUsername_CaseInsensitiveMatch_ReturnsUserId
+| GetIdByUsernameCaseInsensitiveMatchReturnsUserId
 | username = "playerone"
 | BD contiene username "PlayerOne". +
 Caso insensible.
@@ -126,14 +126,14 @@ Caso insensible.
 | Éxito: coincidencia sin importar mayúsculas/minúsculas.
 
 | TC-CR-15
-| GetIdByUsername_UserHasMultipleProfiles_ReturnsMatchingUserId
+| GetIdByUsernameUserHasMultipleProfilesReturnsMatchingUserId
 | username = "seth"
 | Usuario id=33 con múltiples perfiles, uno de ellos "seth".
 | El ID retornado es 33.
 | Éxito: coincide perfil adecuado.
 
 | TC-CR-16
-| GetIdByUsername_OnlyOneUserMatches_ReturnsCorrectId
+| GetIdByUsernameOnlyOneUserMatchesReturnsCorrectId
 | username = "seth"
 | BD contiene usuarios con perfiles distintos. +
 Uno de ellos tiene username "seth".
@@ -148,7 +148,7 @@ Uno de ellos tiene username "seth".
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada (Mock Setup) | Condiciones de Salida (Verificaciones) | Resultado Esperado
 
 | TC-FR-01
-| EnsureDifferentUsers_SameIds_ThrowsUserValidationError
+| EnsureDifferentUsersSameIdsThrowsUserValidationError
 | idUsuario1 = 5, idUsuario2 = 5
 | Se obtiene por reflexión el método estático privado EnsureDifferentUsers. No hay base de datos; solo se pasan dos IDs iguales.
 | Se captura la excepción producida. +
@@ -157,14 +157,14 @@ Se verifica que el código de error es UserValidationError.
 | Excepción controlada: no se permiten IDs iguales; se lanza RepositoryValidationException con código UserValidationError.
 
 | TC-FR-02
-| EnsureDifferentUsers_DifferentIds_DoesNotThrow
+| EnsureDifferentUsersDifferentIdsDoesNotThrow
 | idUsuario1 = 1, idUsuario2 = 2
 | Se obtiene por reflexión EnsureDifferentUsers. Se invoca con dos IDs diferentes.
 | Se captura cualquier excepción y se verifica que el resultado es null (no se lanza excepción).
 | Éxito: el método acepta IDs diferentes sin lanzar error.
 
 | TC-FR-03
-| EnsureUsersExist_UserMissing_ThrowsUserNotFound
+| EnsureUsersExistUserMissingThrowsUserNotFound
 | idUsuario1 = 1, idUsuario2 = 99
 | En la lista usuarios solo existe el usuario con id = 1. +
 El contexto contiene un solo registro. +
@@ -175,7 +175,7 @@ Se verifica que el código de error es UserNotFound.
 | Excepción controlada: se detecta que uno de los usuarios no existe y se lanza RepositoryValidationException con código UserNotFound.
 
 | TC-FR-04
-| EnsureUsersExist_BothExist_DoesNotThrow
+| EnsureUsersExistBothExistDoesNotThrow
 | idUsuario1 = 1, idUsuario2 = 2
 | La lista usuarios contiene dos usuarios con IDs 1 y 2. +
 mockDb.usuarios devuelve esa lista. +
@@ -184,7 +184,7 @@ Se invoca EnsureUsersExist.
 | Éxito: cuando ambos usuarios existen, el método no lanza errores.
 
 | TC-FR-05
-| EnsureNotFriends_AlreadyFriends_ThrowsAlreadyFriends
+| EnsureNotFriendsAlreadyFriendsThrowsAlreadyFriends
 | idUsuario1 = 1, idUsuario2 = 2
 | La lista amistades contiene un registro con (1, 2). +
   mockDb.amistades devuelve esta lista. +
@@ -196,7 +196,7 @@ Se invoca EnsureUsersExist.
 
 
 | TC-FR-06
-| EnsureNotFriends_NoFriendship_DoesNotThrow
+| EnsureNotFriendsNoFriendshipDoesNotThrow
 | idUsuario1 = 1, idUsuario2 = 2
 | La lista amistades está vacía, por lo que no hay amistad registrada. +
 mockDb.amistades devuelve una colección vacía. +
@@ -205,7 +205,7 @@ Se invoca EnsureNotFriends.
 | Éxito: si no existe amistad previa, el método termina sin error.
 
 | TC-FR-07
-| EnsureFriends_NoFriendship_ThrowsFriendsLoadError
+| EnsureFriendsNoFriendshipThrowsFriendsLoadError
 | idUsuario1 = 1, idUsuario2 = 2
 | La lista amistades está vacía (no hay relación de amistad). +
 Se obtiene por reflexión EnsureFriends y se invoca con el contexto y los IDs.
@@ -215,7 +215,7 @@ Se verifica que el código es FriendsLoadError.
 | Excepción controlada: el método verifica que haya amistad; al no encontrarla, lanza RepositoryValidationException con código FriendsLoadError.
 
 | TC-FR-08
-| EnsureFriends_FriendshipExists_DoesNotThrow
+| EnsureFriendsFriendshipExistsDoesNotThrow
 | idUsuario1 = 1, idUsuario2 = 2
 | La lista amistades contiene un registro (1,2). +
 mockDb.amistades devuelve esa lista. +
@@ -224,7 +224,7 @@ Se invoca EnsureFriends.
 | Éxito: cuando existe amistad entre los usuarios, la validación pasa correctamente.
 
 | TC-FR-09
-| EnsureNotBlocked_IsBlocked_ThrowsFriendsLoadError
+| EnsureNotBlockedIsBlockedThrowsFriendsLoadError
 | idBloqueador = 1, idBloqueado = 2
 | La lista bloqueos contiene un registro con bloqueador 1 y bloqueado 2. +
 mockDb.bloqueos devuelve esta colección. +
@@ -235,7 +235,7 @@ Se verifica que el código es FriendsLoadError.
 | Excepción controlada: si el usuario ya está bloqueado, el método lanza RepositoryValidationException con código FriendsLoadError.
 
 | TC-FR-10
-| EnsureNotBlocked_NoBlock_DoesNotThrow
+| EnsureNotBlockedNoBlockDoesNotThrow
 | idBloqueador = 1, idBloqueado = 2
 | La lista bloqueos está vacía. +
 mockDb.bloqueos devuelve colección sin elementos. +
@@ -244,7 +244,7 @@ Se invoca EnsureNotBlocked.
 | Éxito: si no existe registro de bloqueo, la validación pasa.
 
 | TC-FR-11
-| EnsureNotBlockedSelf_SameUser_ThrowsUserValidationError
+| EnsureNotBlockedSelfSameUserThrowsUserValidationError
 | idUsuario1 = 5, idUsuario2 = 5
 | Se invoca el método privado EnsureNotBlockedSelf por reflexión con dos IDs iguales.
 | Se captura la excepción. +
@@ -253,14 +253,14 @@ Se comprueba que el código de error es UserValidationError.
 | Excepción controlada: no se permite que un usuario se bloquee a sí mismo; se lanza RepositoryValidationException con código UserValidationError.
 
 | TC-FR-12
-| EnsureNotBlockedSelf_DifferentUsers_DoesNotThrow
+| EnsureNotBlockedSelfDifferentUsersDoesNotThrow
 | idUsuario1 = 1, idUsuario2 = 2
 | Se invoca EnsureNotBlockedSelf con IDs distintos.
 | Se verifica que no se lanza ninguna excepción.
 | Éxito: la validación permite IDs diferentes.
 
 | TC-FR-13
-|EnsureNoPendingRequest_PendingRequestExists_ThrowsFriendRequestAlreadyPending
+|EnsureNoPendingRequestPendingRequestExistsThrowsFriendRequestAlreadyPending
 | emisor = 1, receptor = 2
 | La lista solicitudes_amistad contiene una solicitud (1 → 2) con estado "pendiente". +
   mockDb.solicitudes_amistad devuelve esta lista. +
@@ -272,7 +272,7 @@ Se comprueba que el código de error es UserValidationError.
 
 
 | TC-FR-14
-| EnsureNoPendingRequest_NoPendingRequest_DoesNotThrow
+| EnsureNoPendingRequestNoPendingRequestDoesNotThrow
 | emisor = 1, receptor = 2
 | La lista solicitudes_amistad está vacía (no hay solicitudes). +
 Se invoca EnsureNoPendingRequest.
@@ -280,7 +280,7 @@ Se invoca EnsureNoPendingRequest.
 | Éxito: si no hay solicitudes pendientes, la validación es correcta.
 
 | TC-FR-15
-| EnsurePendingRequestExists_NoPending_ThrowsFriendsLoadError
+| EnsurePendingRequestExistsNoPendingThrowsFriendsLoadError
 | emisor = 1, receptor = 2
 | La lista solicitudes_amistad está vacía. +
 Se invoca EnsurePendingRequestExists.
@@ -290,7 +290,7 @@ Se verifica que el código es FriendsLoadError.
 | Excepción controlada: al no existir solicitud pendiente, se lanza RepositoryValidationException con código FriendsLoadError.
 
 | TC-FR-16
-| EnsurePendingRequestExists_PendingExists_DoesNotThrow
+| EnsurePendingRequestExistsPendingExistsDoesNotThrow
 | emisor = 1, receptor = 2
 | La lista solicitudes_amistad tiene una solicitud (2 → 1) con estado "pendiente". +
 mockDb.solicitudes_amistad devuelve la lista. +
@@ -299,7 +299,7 @@ Se invoca EnsurePendingRequestExists.
 | Éxito: si hay una solicitud pendiente entre los usuarios, la validación pasa.
 
 | TC-FR-17
-| FriendshipExists_WhenFriendshipExists_ReturnsTrue
+| FriendshipExistsWhenFriendshipExistsReturnsTrue
 | idUsuario1 = 1, idUsuario2 = 2
 | amistades contiene un registro (1,2). +
 mockDb.amistades devuelve esta lista. +
@@ -308,7 +308,7 @@ Se invoca FriendshipExists por reflexión.
 | Éxito: el método reconoce correctamente que la amistad existe.
 
 | TC-FR-18
-| FriendshipExists_WhenFriendshipDoesNotExist_ReturnsFalse
+| FriendshipExistsWhenFriendshipDoesNotExistReturnsFalse
 | idUsuario1 = 1, idUsuario2 = 2
 | La lista amistades está vacía. +
 Se invoca FriendshipExists.
@@ -316,7 +316,7 @@ Se invoca FriendshipExists.
 | Éxito: el método indica correctamente que no hay amistad.
 
 | TC-FR-19
-| IsBlocked_WhenUserIsBlocked_ReturnsTrue
+| IsBlockedWhenUserIsBlockedReturnsTrue
 | idBloqueador = 1, idBloqueado = 2
 | La lista bloqueos tiene un registro (1 bloquea a 2). +
 mockDb.bloqueos devuelve esta lista. +
@@ -325,7 +325,7 @@ Se invoca IsBlocked.
 | Éxito: el método detecta correctamente que el usuario está bloqueado.
 
 | TC-FR-20
-| IsBlocked_WhenUserIsNotBlocked_ReturnsFalse
+| IsBlockedWhenUserIsNotBlockedReturnsFalse
 | idBloqueador = 1, idBloqueado = 2
 | La lista bloqueos está vacía. +
 Se invoca IsBlocked.
@@ -333,7 +333,7 @@ Se invoca IsBlocked.
 | Éxito: el método indica que no hay bloqueo.
 
 | TC-FR-21
-| PendingRequestExists_WhenPendingRequestExists_ReturnsTrue
+| PendingRequestExistsWhenPendingRequestExistsReturnsTrue
 | emisor = 1, receptor = 2
 | La lista solicitudes_amistad contiene una solicitud (1 → 2) con estado "pendiente". + Se invoca PendingRequestExists.
 | Se verifica que el resultado es true.
@@ -341,7 +341,7 @@ Se invoca IsBlocked.
 
 
 | TC-FR-22
-| PendingRequestExists_WhenNoPendingRequest_ReturnsFalse
+| PendingRequestExistsWhenNoPendingRequestReturnsFalse
 | emisor = 1, receptor = 2
 | solicitudes_amistad está vacía. +
 Se invoca PendingRequestExists.
@@ -349,7 +349,7 @@ Se invoca PendingRequestExists.
 | Éxito: el método indica que no hay solicitudes pendientes.
 
 | TC-FR-23
-| MapToFriendDto_WithValidProfile_ReturnsCorrectDto
+| MapToFriendDtoWithValidProfileReturnsCorrectDto
 | usuario con id = 10, username = "Seth", avatar = "avatar123.png"
 | Se construye una instancia de usuarios con un perfil asociado. +
 Se invoca MapToFriendDto por reflexión con ese usuario.
@@ -360,7 +360,7 @@ Se verifica que Avatar = "avatar123.png".
 | Éxito: el mapeo del usuario con perfil a FriendDto se realiza con los valores esperados.
 
 | TC-FR-24
-| MapToFriendDto_NoProfile_ThrowsException
+| MapToFriendDtoNoProfileThrowsException
 | usuario con id = 55 sin perfiles
 | Se crea un usuario con lista de perfiles vacía. +
   Se invoca MapToFriendDto.
@@ -369,7 +369,7 @@ Se verifica que Avatar = "avatar123.png".
 
 
 | TC-FR-25
-| GetUserIds_ValidDifferentUsers_ReturnsCorrectTuple
+| GetUserIdsValidDifferentUsersReturnsCorrectTuple
 | receiverUsername = "Receiver", senderUsername = "Sender"
 | Se simula IRepositoryUsers para que: +
 GetUserIdByUsername("Receiver") devuelva 10, +
@@ -380,7 +380,7 @@ Se verifica que receiverId = 10 y senderId = 20.
 | Éxito: la obtención de IDs a partir de usernames se realiza correctamente.
 
 | TC-FR-26
-| GetUserIds_SameUser_ThrowsUserValidationError
+| GetUserIdsSameUserThrowsUserValidationError
 | senderUsername = "User", receiverUsername = "User"
 | El mock de IRepositoryUsers devuelve siempre id = 50 para cualquier username. +
 Se crea FriendRepository y se invoca GetUserIds por reflexión.
@@ -389,7 +389,7 @@ Se comprueba que la excepción interna es RepositoryValidationException (validac
 | Excepción controlada: el método no permite que emisor y receptor sean el mismo usuario y la excepcion es del tipo RepositoryValidationException.
 
 | TC-FR-27
-| ApplyBlock_AlreadyBlocked_ThrowsException
+| ApplyBlockAlreadyBlockedThrowsException
 | bloqueadorId = 1, bloqueadoId = 2
 | La lista bloqueos contiene ya un registro (1 bloquea a 2). +
 mockDb.bloqueos devuelve esa lista. +
@@ -399,7 +399,7 @@ Se comprueba que la excepción interna es RepositoryValidationException.
 | Excepción controlada: no se permite volver a bloquear a alguien que ya está bloqueado.
 
 | TC-FR-28
-| ApplyBlock_RemovesFriendshipAndPendingRequests
+| ApplyBlockRemovesFriendshipAndPendingRequests
 | bloqueadorId = 1, bloqueadoId = 2
 | amistades contiene una amistad (1,2). +
 solicitudes_amistad contiene una solicitud pendiente entre 1 y 2. +
@@ -411,7 +411,7 @@ La lista solicitudes_amistad queda vacía.
 | Éxito: al bloquear, se eliminan las amistades y solicitudes pendientes entre ambos usuarios.
 
 | TC-FR-29
-| ApplyBlock_AddsNewBlockEntry
+| ApplyBlockAddsNewBlockEntry
 | bloqueadorId = 5, bloqueadoId = 9
 | amistades y solicitudes_amistad están vacías. +
 bloqueos está vacío. +
@@ -421,7 +421,7 @@ Se comprueba que el nuevo registro tiene id_bloqueador = 5 y id_bloqueado = 9.
 | Éxito: se crea correctamente el registro de bloqueo entre los usuarios.
 
 | TC-FR-30
-| RemoveBlock_BlockNotFound_ThrowsException
+| RemoveBlockBlockNotFoundThrowsException
 | bloqueadorId = 1, bloqueadoId = 2
 | La lista bloqueos está vacía. +
 mockDb.bloqueos devuelve la lista vacía. +
@@ -431,7 +431,7 @@ La excepción interna es RepositoryValidationException.
 | Excepción controlada: no se puede eliminar un bloqueo que no existe.
 
 | TC-FR-31
-| RemoveBlock_ExistingBlock_RemovesEntry
+| RemoveBlockExistingBlockRemovesEntry
 | bloqueadorId = 1, bloqueadoId = 2
 | La lista bloqueos contiene un registro (1,2). +
 Se invoca RemoveBlock.
@@ -439,7 +439,7 @@ Se invoca RemoveBlock.
 | Éxito: se elimina el registro de bloqueo existente.
 
 | TC-FR-32
-| RemoveBlock_NoMatchingBlock_ThrowsException
+| RemoveBlockNoMatchingBlockThrowsException
 | bloqueadorId = 1, bloqueadoId = 2
 | La lista bloqueos contiene entradas, pero ninguna con (1,2); solo (99,100) y (5,8). +
 Se invoca RemoveBlock.
@@ -448,7 +448,7 @@ La excepción interna es RepositoryValidationException.
 | Excepción controlada: si no se encuentra un bloqueo con esos IDs, el método lanza error.
 
 | TC-FR-33
-| RemoveBlock_MultipleMatchingBlocks_RemovesOnlyFirst
+| RemoveBlockMultipleMatchingBlocksRemovesOnlyFirst
 | bloqueadorId = 1, bloqueadoId = 2
 | La lista bloqueos contiene dos registros idénticos (1,2). +
 Se invoca RemoveBlock.
@@ -457,7 +457,7 @@ Solo se elimina la primera coincidencia.
 | Éxito: el método remueve una única entrada aunque haya duplicados.
 
 | TC-FR-34
-| RemoveFriendshipIfExists_FriendshipFound_RemovesEntry
+| RemoveFriendshipIfExistsFriendshipFoundRemovesEntry
 | idUsuario1 = 1, idUsuario2 = 2
 | amistades contiene una entrada (1,2). +
 Se invoca RemoveFriendshipIfExists.
@@ -465,7 +465,7 @@ Se invoca RemoveFriendshipIfExists.
 | Éxito: se elimina la amistad cuando existe en el orden directo.
 
 | TC-FR-35
-| RemoveFriendshipIfExists_FriendshipFound_ReversedIds_RemovesEntry
+| RemoveFriendshipIfExistsFriendshipFoundReversedIdsRemovesEntry
 | idUsuario1 = 1, idUsuario2 = 2
 | amistades contiene una amistad (2,1). +
 Se invoca RemoveFriendshipIfExists con (1,2).
@@ -473,7 +473,7 @@ Se invoca RemoveFriendshipIfExists con (1,2).
 | Éxito: se elimina la amistad aunque los IDs estén invertidos.
 
 | TC-FR-36
-| RemoveFriendshipIfExists_NoFriendship_NoChanges
+| RemoveFriendshipIfExistsNoFriendshipNoChanges
 | idUsuario1 = 1, idUsuario2 = 2
 | amistades contiene una amistad entre otros usuarios (10,20). +
 Se invoca RemoveFriendshipIfExists.
@@ -482,7 +482,7 @@ No se elimina nada.
 | Éxito: no se modifican entradas cuando no hay amistad entre los IDs dados.
 
 | TC-FR-37
-| RemoveFriendshipIfExists_MultipleFriendships_RemovesOnlyFirstMatch
+| RemoveFriendshipIfExistsMultipleFriendshipsRemovesOnlyFirstMatch
 | idUsuario1 = 1, idUsuario2 = 2
 | amistades contiene dos registros (1,2) y (1,2). +
 Se invoca RemoveFriendshipIfExists.
@@ -490,7 +490,7 @@ Se invoca RemoveFriendshipIfExists.
 | Éxito: solo se borra la primera coincidencia.
 
 | TC-FR-38
-| RemoveFriendshipIfExists_EmptyList_NoException
+| RemoveFriendshipIfExistsEmptyListNoException
 | idUsuario1 = 1, idUsuario2 = 2
 | La lista amistades está vacía. +
 Se invoca RemoveFriendshipIfExists.
@@ -498,7 +498,7 @@ Se invoca RemoveFriendshipIfExists.
 | Éxito: el método tolera listas vacías sin fallar.
 
 | TC-FR-39
-| RemovePendingRequests_ExactMatch_RemovesRequest
+| RemovePendingRequestsExactMatchRemovesRequest
 | emisor = 1, receptor = 2
 | solicitudes_amistad contiene una solicitud (1 → 2). +
 Se invoca RemovePendingRequests.
@@ -506,7 +506,7 @@ Se invoca RemovePendingRequests.
 | Éxito: se elimina la solicitud pendiente exacta.
 
 | TC-FR-40
-| RemovePendingRequests_ReversedMatch_RemovesRequest
+| RemovePendingRequestsReversedMatchRemovesRequest
 | emisor = 1, receptor = 2
 | solicitudes_amistad contiene (2 → 1). +
 Se invoca RemovePendingRequests con (1,2).
@@ -514,7 +514,7 @@ Se invoca RemovePendingRequests con (1,2).
 | Éxito: se elimina la solicitud aunque los IDs estén invertidos.
 
 | TC-FR-41
-| RemovePendingRequests_NoMatchingRequests_NoChanges
+| RemovePendingRequestsNoMatchingRequestsNoChanges
 | emisor = 1, receptor = 2
 | solicitudes_amistad contiene (5 → 7). +
 Se invoca RemovePendingRequests con (1,2).
@@ -522,7 +522,7 @@ Se invoca RemovePendingRequests con (1,2).
 | Éxito: no se modifican solicitudes que no coinciden con los usuarios indicados.
 
 | TC-FR-42
-| RemovePendingRequests_MultipleMatches_RemovesAllMatches
+| RemovePendingRequestsMultipleMatchesRemovesAllMatches
 | emisor = 1, receptor = 2
 | solicitudes_amistad contiene (1 → 2) y (2 → 1). +
 Se invoca RemovePendingRequests.
@@ -530,7 +530,7 @@ Se invoca RemovePendingRequests.
 | Éxito: se eliminan todas las solicitudes relacionadas con la pareja de usuarios.
 
 | TC-FR-43
-| RemovePendingRequests_EmptyList_NoException
+| RemovePendingRequestsEmptyListNoException
 | emisor = 1, receptor = 2
 | La lista solicitudes_amistad está vacía. +
 Se invoca RemovePendingRequests.
@@ -538,7 +538,7 @@ Se invoca RemovePendingRequests.
 | Éxito: el método es seguro ante listas vacías.
 
 | TC-FR-44
-| RemovePendingRequests_MixedRequests_RemovesOnlyThoseMatchingUsers
+| RemovePendingRequestsMixedRequestsRemovesOnlyThoseMatchingUsers
 | emisor = 1, receptor = 2
 | solicitudes_amistad contiene tres solicitudes: (1 → 2), (3 → 4) y (2 → 1). +
 Se invoca RemovePendingRequests con (1,2).
@@ -546,7 +546,7 @@ Se invoca RemovePendingRequests con (1,2).
 | Éxito: solo se eliminan las solicitudes entre los usuarios 1 y 2; el resto permanece.
 
 | TC-FR-45
-| GetFriends_NoFriendships_ReturnsEmptyList
+| GetFriendsNoFriendshipsReturnsEmptyList
 | username = "seth"
 | IRepositoryUsers.GetUserIdByUsername("seth") devuelve 1. +
 La lista amistades está vacía. +
@@ -556,7 +556,7 @@ Se verifica que la lista resultante está vacía.
 | Éxito: si el usuario no tiene amistades, el método devuelve una lista vacía.
 
 | TC-FR-46
-| GetFriends_OneFriendshipWhereUserIsUser1_ReturnsFriendDto
+| GetFriendsOneFriendshipWhereUserIsUser1ReturnsFriendDto
 | username = "seth" (id=1)
 | amistades contiene una entrada donde (id_usuario1 = 1, id_usuario2 = 2) y usuarios1 es el amigo con username "amigo". +
 Se invoca GetFriends("seth").
@@ -566,7 +566,7 @@ El Username del amigo es "amigo".
 | Éxito: se obtiene correctamente el amigo cuando el usuario es usuario1 en la relación.
 
 | TC-FR-47
-| GetFriends_OneFriendshipWhereUserIsUser2_ReturnsFriendDto
+| GetFriendsOneFriendshipWhereUserIsUser2ReturnsFriendDto
 | username = "seth" (id=1)
 | amistades contiene una entrada donde (id_usuario1 = 3, id_usuario2 = 1) y la navegación usuarios apunta al amigo (id=3, username="otro"). +
 Se invoca GetFriends("seth").
@@ -576,7 +576,7 @@ Username = "otro".
 | Éxito: se obtiene el amigo cuando el usuario es usuario2 en la relación.
 
 | TC-FR-48
-| GetFriends_MultipleFriendships_ReturnsAllFriends
+| GetFriendsMultipleFriendshipsReturnsAllFriends
 | username = "seth" (id=1)
 | amistades contiene dos relaciones: (1,2) con amigo "uno" y (3,1) con amigo "dos". +
 Se invoca GetFriends("seth").
@@ -585,7 +585,7 @@ Se comprueba que hay amigos con IDs 2 y 3.
 | Éxito: el método devuelve todos los amigos del usuario, sin importar la posición en la relación.
 
 | TC-FR-49
-| GetFriends_FriendWithoutProfile_UsesDefaultValues
+| GetFriendsFriendWithoutProfileUsesDefaultValues
 | username = "seth" (id=1)
 | La lista amistades contiene una amistad (1,7) cuyo usuario amigo no tiene perfiles. +
 Se invoca GetFriends("seth").
@@ -595,7 +595,7 @@ Username = "N/A" (valor por defecto).
 | Éxito: al no haber perfil, se utilizan valores por defecto en el DTO de amigo.
 
 | TC-FR-50
-| GetFriendRequests_NoRequests_ReturnsEmptyList
+| GetFriendRequestsNoRequestsReturnsEmptyList
 | username = "seth" (id=1)
 | solicitudes_amistad está vacía. +
 Se crea FriendRepository con el mock de usuarios y contexto. +
@@ -604,7 +604,7 @@ Se invoca GetFriendRequests("seth").
 | Éxito: si no hay solicitudes de amistad para el usuario, se devuelve lista vacía.
 
 | TC-FR-51
-| GetFriendRequests_OnePendingRequest_ReturnsFriendDto
+| GetFriendRequestsOnePendingRequestReturnsFriendDto
 | username = "seth" (id=1)
 | solicitudes_amistad contiene una solicitud (emisor=2, receptor=1, estado="pendiente") con el emisor usuarios que tiene username "amigo". +
 Se invoca GetFriendRequests("seth").
@@ -614,7 +614,7 @@ Username = "amigo".
 | Éxito: se devuelve correctamente el emisor como solicitud pendiente.
 
 | TC-FR-52
-| GetFriendRequests_IgnoresNonPendingRequests
+| GetFriendRequestsIgnoresNonPendingRequests
 | username = "seth" (id=1)
 | solicitudes_amistad tiene solicitudes hacia el usuario, pero con estados "rechazada" y "aceptada". +
 Se invoca GetFriendRequests("seth").
@@ -623,7 +623,7 @@ Se invoca GetFriendRequests("seth").
 
 
 | TC-FR-53
-| GetFriendRequests_MultiplePendingRequests_ReturnsAll
+| GetFriendRequestsMultiplePendingRequestsReturnsAll
 | username = "seth" (id=1)
 | solicitudes_amistad contiene dos solicitudes pendientes de usuarios 2 y 3 hacia receptor 1, cada uno con su perfil. +
 Se invoca GetFriendRequests("seth").
@@ -632,7 +632,7 @@ Se comprueba que hay solicitudes de amigos con IDs 2 y 3.
 | Éxito: se devuelven todas las solicitudes pendientes para el usuario.
 
 | TC-FR-54
-| GetFriendRequests_EmitterHasNoProfile_UsesDefaultValues
+| GetFriendRequestsEmitterHasNoProfileUsesDefaultValues
 | username = "seth" (id=1)
 | solicitudes_amistad contiene una solicitud pendiente de un usuario (id=5) sin perfiles. +
 Se invoca GetFriendRequests("seth").
@@ -641,7 +641,7 @@ Se comprueba que Username = "N/A".
 | Éxito: si el emisor no tiene perfil, se utiliza un username por defecto en el DTO.
 
 | TC-FR-55
-| UpdateBlockStatus_BlockSelf_ThrowsUserValidationError
+| UpdateBlockStatusBlockSelfThrowsUserValidationError
 | blockerUsername = "same", blockedUsername = "same", bloquear = true
 | IRepositoryUsers.GetUserIdByUsername("same") devuelve 10 para ambos. +
 Se crea FriendRepository con contexto simulado.
@@ -650,7 +650,7 @@ Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se impide que un usuario se bloquee a sí mismo.
 
 | TC-FR-56
-| UpdateBlockStatus_Block_AddsBlockEntry
+| UpdateBlockStatusBlockAddsBlockEntry
 | blockerUsername = "A" (id=1), blockedUsername = "B" (id=2), bloquear = true
 | bloqueos, amistades y solicitudes_amistad están vacíos. +
 Se configura el contexto para usar esas listas. +
@@ -659,7 +659,7 @@ Se invoca UpdateBlockStatus("A","B", true).
 | Éxito: se registra el bloqueo entre los dos usuarios.
 
 | TC-FR-57
-| UpdateBlockStatus_BlockAlreadyBlocked_ThrowsException
+| UpdateBlockStatusBlockAlreadyBlockedThrowsException
 | blockerUsername = "A" (id=1), blockedUsername = "B" (id=2), bloquear = true
 | bloqueos ya contiene un registro (1,2). +
 amistades y solicitudes_amistad están vacíos. +
@@ -668,7 +668,7 @@ Se invoca UpdateBlockStatus("A","B", true).
 | Excepción controlada: no se puede bloquear a un usuario que ya está bloqueado.
 
 | TC-FR-58
-| UpdateBlockStatus_Unblock_RemovesEntry
+| UpdateBlockStatusUnblockRemovesEntry
 | blockerUsername = "A" (id=1), blockedUsername = "B" (id=2), bloquear = false
 | La lista bloqueos contiene un registro (1,2). +
 amistades y solicitudes_amistad se simulan como listas vacías. +
@@ -677,7 +677,7 @@ Se invoca UpdateBlockStatus("A","B", false).
 | Éxito: el desbloqueo elimina correctamente el registro.
 
 | TC-FR-59
-| UpdateBlockStatus_UnblockMissing_ThrowsException
+| UpdateBlockStatusUnblockMissingThrowsException
 | blockerUsername = "A" (id=1), blockedUsername = "B" (id=2), bloquear = false
 | La lista bloqueos está vacía (no hay bloqueo). +
 Se invoca UpdateBlockStatus("A","B", false).
@@ -685,7 +685,7 @@ Se invoca UpdateBlockStatus("A","B", false).
 | Excepción controlada: no se puede desbloquear a alguien que no está bloqueado.
 
 | TC-FR-60
-| DeleteFriend_ValidFriendship_RemovesFriendAndReturnsTrue
+| DeleteFriendValidFriendshipRemovesFriendAndReturnsTrue
 | usernames "A" (id=1) y "B" (id=2)
 | usuarios contiene usuarios 1 y 2. +
 amistades contiene una relación (1,2). +
@@ -696,7 +696,7 @@ Se comprueba que la lista amistades queda vacía.
 | Éxito: se elimina correctamente la amistad y se indica éxito.
 
 | TC-FR-61
-| DeleteFriend_NoFriendship_ThrowsFriendsLoadError
+| DeleteFriendNoFriendshipThrowsFriendsLoadError
 | usernames "A" (id=1) y "B" (id=2)
 | usuarios contiene 1 y 2. +
 amistades está vacía (no son amigos). +
@@ -705,7 +705,7 @@ Se invoca DeleteFriend("A","B").
 | Excepción controlada: no se puede eliminar una amistad inexistente.
 
 | TC-FR-62
-| DeleteFriend_UserDoesNotExist_ThrowsException
+| DeleteFriendUserDoesNotExistThrowsException
 | usernames "A" (id=1) y "B" (id=999 simulado)
 | usuarios solo contiene al usuario con id=1. +
 El mock de IRepositoryUsers devuelve 999 para "B". +
@@ -714,7 +714,7 @@ Se invoca DeleteFriend("A","B").
 | Excepción controlada: si uno de los usuarios no existe en la tabla usuarios, la operación falla.
 
 | TC-FR-63
-| DeleteFriend_FriendshipReverseOrder_RemovesCorrectEntry
+| DeleteFriendFriendshipReverseOrderRemovesCorrectEntry
 | usernames "A" (id=1) y "B" (id=2)
 | amistades contiene una relación (2,1) (orden invertido). +
 usuarios contiene ambos usuarios. +
@@ -723,7 +723,7 @@ Se invoca DeleteFriend("A","B").
 | Éxito: se elimina la amistad aunque los IDs estén en el orden inverso.
 
 | TC-FR-64
-| DeleteFriend_SaveChanges_IsCalled
+| DeleteFriendSaveChangesIsCalled
 | usernames "A" (id=1) y "B" (id=2)
 | amistades contiene una amistad (1,2). +
 usuarios contiene IDs 1 y 2. +
@@ -733,7 +733,7 @@ Se invoca DeleteFriend("A","B").
 | Éxito: además de eliminar la amistad, se confirma que se persiste el cambio en la base de datos.
 
 | TC-FR-65
-| GetFriendPublicProfile_ValidUserWithProfile_ReturnsCorrectData
+| GetFriendPublicProfileValidUserWithProfileReturnsCorrectData
 | username = "seth" (id=1)
 | usuarios contiene un usuario con perfil completo: username "seth", nombre "Seth", apellido "Marquez", URL y avatar. +
 participantes_partida contiene dos partidas para el usuario, una con posición 1 y otra con 3. +
@@ -750,7 +750,7 @@ Loses = 1.
 | Éxito: se construye correctamente el perfil público con estadísticas de partidas.
 
 | TC-FR-66
-| GetFriendPublicProfile_UserWithoutProfile_UsesDefaultValues
+| GetFriendPublicProfileUserWithoutProfileUsesDefaultValues
 | username = "user" (id=1)
 | usuarios contiene un usuario sin perfiles. +
 participantes_partida está vacío. +
@@ -761,7 +761,7 @@ Las estadísticas (MatchesPlayed, Wins, Loses) son 0.
 | Éxito: al no tener perfil ni partidas, se usan valores por defecto y estadísticas en cero.
 
 | TC-FR-67
-| GetFriendPublicProfile_UserNotFound_ThrowsException
+| GetFriendPublicProfileUserNotFoundThrowsException
 | username = "ghost" (id=99)
 | El mock de repositorio devuelve id=99, pero la lista usuarios está vacía. +
 Se invoca GetFriendPublicProfile("ghost").
@@ -769,7 +769,7 @@ Se invoca GetFriendPublicProfile("ghost").
 | Excepción controlada: si el usuario no existe en la base de datos, la consulta del perfil público falla con error de validación.
 
 | TC-FR-68
-| GetFriendPublicProfile_NoMatches_ShouldReturnZeroStats
+| GetFriendPublicProfileNoMatchesShouldReturnZeroStats
 | username = "player" (id=1)
 | usuarios contiene un usuario con perfil mínimo (solo username). +
 participantes_partida está vacío (no ha jugado). +
@@ -778,7 +778,7 @@ Se invoca GetFriendPublicProfile("player").
 | Éxito: el método asigna correctamente estadísticas en cero si el jugador no tiene partidas.
 
 | TC-FR-69
-| GetFriendPublicProfile_NullAvatar_UsesDefaultAvatar
+| GetFriendPublicProfileNullAvatarUsesDefaultAvatar
 | username = "pic" (id=1)
 | usuarios contiene un perfil con imagen_perfil = null. +
 participantes_partida está vacío. +
@@ -787,7 +787,7 @@ Se invoca GetFriendPublicProfile("pic").
 | Éxito: cuando el avatar almacenado es nulo, se usa el avatar por defecto.
 
 | TC-FR-70
-| DeleteFriendAndBlock_AlreadyBlocked_ThrowsException
+| DeleteFriendAndBlockAlreadyBlockedThrowsException
 | usernames "A" (id=1) y "B" (id=2)
 | usuarios contiene 1 y 2. +
 amistades está vacía. +
@@ -797,7 +797,7 @@ Se invoca DeleteFriendAndBlock("A","B").
 | Excepción controlada: no se puede usar la operación combinada si el usuario ya está bloqueado.
 
 | TC-FR-71
-| DeleteFriendAndBlock_SameUser_ThrowsException
+| DeleteFriendAndBlockSameUserThrowsException
 | username1 = "A", username2 = "A"
 | IRepositoryUsers devuelve id=1 para "A". +
 usuarios contiene solo ese usuario. +
@@ -806,7 +806,7 @@ Se invoca DeleteFriendAndBlock("A","A").
 | Excepción controlada: no se permite eliminar amistad y bloquearse a uno mismo.
 
 | TC-FR-72
-| DeleteFriendAndBlock_UserNotFound_ThrowsException
+| DeleteFriendAndBlockUserNotFoundThrowsException
 | usernames "A" (id=1) y "B" (id=2)
 | El repositorio de usuarios devuelve IDs 1 y 2, pero en usuarios solo existe el registro con id=1. +
 Se invoca DeleteFriendAndBlock("A","B").
@@ -821,7 +821,7 @@ Se invoca DeleteFriendAndBlock("A","B").
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada (Mock Setup) | Condiciones de Salida (Verificaciones) | Resultado Esperado
 
 | TC-RR-01
-| GetTop10Players_NoPlayers_ReturnsEmptyList
+| GetTop10PlayersNoPlayersReturnsEmptyList
 | Sin jugadores registrados. +
 Listas vacías: participantes_partida y usuarios.
 | mockDb.participantes_partida retorna lista vacía. +
@@ -831,7 +831,7 @@ repo.CreateDbContext() devuelve este contexto simulado.
 | Éxito: no hay jugadores → ranking vacío.
 
 | TC-RR-02
-| GetTop10Players_OnePlayer_ReturnsCorrectStats
+| GetTop10PlayersOnePlayerReturnsCorrectStats
 | Jugador con id=1 tiene: +
  2 partidas jugadas. +
  1 victoria (posición 1). +
@@ -850,7 +850,7 @@ Contexto simulado devuelto por CreateDbContext().
 | Éxito: estadísticas calculadas correctamente.
 
 | TC-RR-03
-| GetTop10Players_OrdersCorrectly_ByWinsThenMatches
+| GetTop10PlayersOrdersCorrectlyByWinsThenMatches
 | Tres jugadores: +
  Jugador 1 → 1 victoria. +
  Jugador 2 → 2 victorias. +
@@ -865,7 +865,7 @@ usuarios contiene nombres: A, B, C para ids 1, 2, 3.
 | Éxito: ranking ordenado correctamente por victorias y luego por partidas.
 
 | TC-RR-04
-| GetTop10Players_ReturnsMax10
+| GetTop10PlayersReturnsMax10
 | 20 jugadores distintos, todos con una victoria. +
 Usernames: player1 … player20.
 | BD simulada contiene 20 entradas en ambas tablas. +
@@ -888,7 +888,7 @@ CreateDbContext() devuelve este contexto.
 | Resultado Esperado
 
 | TC-LM-01
-| ValidateCreateRequest_NullRequest_ThrowsException
+| ValidateCreateRequestNullRequestThrowsException
 | request = null
 | Ninguna configuración especial.
 | Se invoca el método privado ValidateCreateRequest vía reflexión. +
@@ -896,7 +896,7 @@ Se captura la excepción.
 | Excepción controlada: se lanza RepositoryValidationException con código MatchCreationFailed.
 
 | TC-LM-02
-| ValidateCreateRequest_InvalidMaxPlayers_ThrowsException
+| ValidateCreateRequestInvalidMaxPlayersThrowsException
 | request.MaxPlayers = 3
 | Ninguna configuración especial.
 | Se invoca ValidateCreateRequest. +
@@ -904,7 +904,7 @@ Se captura la excepción.
 | Excepción controlada: se lanza RepositoryValidationException con código LobbyInvalidMaxPlayers.
 
 | TC-LM-03
-| ValidateJoinRequest_NullRequest_ThrowsException
+| ValidateJoinRequestNullRequestThrowsException
 | request = null
 | Ninguna configuración especial.
 | Se invoca ValidateJoinRequest. +
@@ -912,7 +912,7 @@ Se captura la excepción.
 | Excepción controlada: se lanza RepositoryValidationException con código LobbyNotFound.
 
 | TC-LM-04
-| ValidateJoinRequest_EmptyUsername_ThrowsException
+| ValidateJoinRequestEmptyUsernameThrowsException
 | LobbyCode = 123456, Username = ""
 | Ninguna configuración especial.
 | Se invoca ValidateJoinRequest. +
@@ -920,21 +920,21 @@ Se captura la excepción.
 | Excepción controlada: se lanza RepositoryValidationException con código UsernameEmpty.
 
 | TC-LM-05
-| IsGuest_ValidGuestUsername_ReturnsTrue
+| IsGuestValidGuestUsernameReturnsTrue
 | username = "Guest-1234"
 | Ninguna configuración especial.
 | Se invoca el método privado IsGuest.
 | Éxito: el método devuelve true para usernames guest válidos.
 
 | TC-LM-06
-| IsGuest_InvalidGuestFormat_ReturnsFalse
+| IsGuestInvalidGuestFormatReturnsFalse
 | username = "Guest-12A4"
 | Ninguna configuración especial.
 | Se invoca IsGuest.
 | Éxito: el método devuelve false para formatos guest inválidos.
 
 | TC-LM-07
-| LobbyState_AddAndRemoveMember_UpdatesCountCorrectly
+| LobbyStateAddAndRemoveMemberUpdatesCountCorrectly
 | username = "Seth"
 | Se crea una instancia de LobbyState vía reflexión.
 | Se agrega un miembro y luego se elimina. +
@@ -942,7 +942,7 @@ Se consulta el contador de miembros.
 | Éxito: el conteo pasa de 1 a 0 correctamente.
 
 | TC-LM-08
-| LobbyState_AssignNewHost_AssignsOldestMember
+| LobbyStateAssignNewHostAssignsOldestMember
 | Usuarios = "Ana", "Luis"
 | Lobby con host inicial. +
 Se agregan miembros en orden.
@@ -951,7 +951,7 @@ Se consulta HostUsername.
 | Éxito: el host se reasigna al primer miembro agregado.
 
 | TC-LM-09
-| LobbyState_ThrowIfFull_WhenMaxPlayersReached_ThrowsException
+| LobbyStateThrowIfFullWhenMaxPlayersReachedThrowsException
 | MaxPlayers = 1
 | Se crea un lobby con capacidad máxima alcanzada.
 | Se invoca ThrowIfFull. +
@@ -959,7 +959,7 @@ Se captura la excepción.
 | Excepción controlada: se lanza RepositoryValidationException con código LobbyFull.
 
 | TC-LM-10
-| LobbyState_ThrowIfGameStarted_ThrowsException
+| LobbyStateThrowIfGameStartedThrowsException
 | N/A
 | Se crea un lobby y se marca como iniciado.
 | Se invoca ThrowIfGameStarted. +
@@ -1083,56 +1083,56 @@ Se captura la excepción.
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada (Mock Setup) | Condiciones de Salida (Verificaciones) | Resultado Esperado
 
 | TC-RS-01
-| ApplyBan_PermanentBan_AddsSanctionCorrectly
+| ApplyBanPermanentBanAddsSanctionCorrectly
 | userId=10, permanent=true, untilUtc=null, reason="Toxicity"
 | Sanciones vacío; Add() agrega nueva sanción; SaveChanges correcto
 | sanciones.Count=1; tipo_sancion="permanente"; fecha_fin=null; motivo="Toxicity"; SaveChanges una vez
 | Éxito: el baneo permanente se registra correctamente con valores consistentes.
 
 | TC-RS-02
-| ApplyBan_TemporaryBan_AssignsCorrectEndDate
+| ApplyBanTemporaryBanAssignsCorrectEndDate
 | userId=20, permanent=false, untilUtc=fecha futura, reason="AFK"
 | Sanciones vacío; SaveChanges correcto
 | sanciones.Count=1; tipo_sancion="temporal"; fecha_fin asignada; activo=true
 | Éxito: el baneo temporal se registra con fecha de expiración válida.
 
 | TC-RS-03
-| ApplyBan_SaveChangesFails_ThrowsException
+| ApplyBanSaveChangesFailsThrowsException
 | userId=1, permanent=false, untilUtc=null, reason="Error test"
 | SaveChanges lanza Exception("DB crash")
 | Se lanza una excepción
 | Excepción controlada: si SaveChanges falla, el repositorio no silencia el error y propaga la excepción.
 
 | TC-RS-04
-| HasActiveBan_NoSanctions_ReturnsFalse
+| HasActiveBanNoSanctionsReturnsFalse
 | userId=5
 | Sanciones vacío
 | resultado=False
 | Éxito: si no existen sanciones registradas, el usuario no está baneado.
 
 | TC-RS-05
-| HasActiveBan_UserHasInactiveSanction_ReturnsFalse
+| HasActiveBanUserHasInactiveSanctionReturnsFalse
 | userId=5
 | Sanciones contiene un registro con activo=false
 | resultado=False
 | Éxito: si la sanción está inactiva, no se considera como baneo vigente.
 
 | TC-RS-06
-| HasActiveBan_UserHasExpiredSanction_ReturnsFalse
+| HasActiveBanUserHasExpiredSanctionReturnsFalse
 | userId=7
 | fecha_fin < ahora; activo=true
 | resultado=False
 | Éxito: las sanciones expiradas no son consideradas activas.
 
 | TC-RS-07
-| HasActiveBan_UserHasPermanentActiveBan_ReturnsTrue
+| HasActiveBanUserHasPermanentActiveBanReturnsTrue
 | userId=3
 | Sanciones contiene registro activo con fecha_fin=null
 | resultado=True
 | Éxito: un baneo permanente siempre cuenta como activo mientras esté marcado como tal.
 
 | TC-RS-08
-| HasActiveBan_TemporaryBanNotExpired_ReturnsTrue
+| HasActiveBanTemporaryBanNotExpiredReturnsTrue
 | userId=8
 | Sanciones contiene registro activo con fecha_fin > ahora
 | resultado=True
@@ -1146,28 +1146,28 @@ Se captura la excepción.
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada (Mock Setup) | Condiciones de Salida (Verificaciones) | Resultado Esperado
 
 | TC-RR-01
-| AddReport_CreatesReportCorrectly
+| AddReportCreatesReportCorrectly
 | reporterId=1, reportedId=2, matchId=10, reason="Toxicidad"
 | Lista Reportes vacía; DbSet simulado agrega el reporte; SaveChanges retorna 1
 | Se agrega exactamente un registro; campos id_usuario_reportador=1, id_usuario_reportado=2, id_partida=10, motivo="Toxicidad", estado="pendiente"; fecha_reporte asignada
 | Éxito: el reporte se crea con todos los campos correctos y queda almacenado en la lista simulada.
 
 | TC-RR-02
-| AddReport_SaveFails_ThrowsWrappedException
+| AddReportSaveFailsThrowsWrappedException
 | reporterId=1, reportedId=2, matchId=3, reason="test"
 | SaveChanges lanza excepción "DB error"
 | Se captura excepción; el mensaje contiene "Report repository error"
 | Excepción controlada: si la base de datos falla, el sistema encapsula el error y lo reporta correctamente.
 
 | TC-RR-03
-| CountReportsForUser_NoReports_ReturnsZero
+| CountReportsForUserNoReportsReturnsZero
 | reportedId=5
 | Lista Reportes vacía
 | Resultado = 0
 | Éxito: si no existen reportes contra el usuario, se devuelve cero.
 
 | TC-RR-04
-| CountReportsForUser_MultipleReports_ReturnsCorrectCount
+| CountReportsForUserMultipleReportsReturnsCorrectCount
 | reportedId=7
 | Lista con 3 reportes, 2 pertenecen a reportedId=7
 | Resultado = 2
@@ -1195,7 +1195,7 @@ Se captura la excepción.
 
 
 | TC-DCF-01
-| Configure_ReplacesFactory
+| ConfigureReplacesFactory
 | Acción: llamar Configure con un delegado válido
 | Se recibe un delegado que crea un nuevo damas_chinasEntities; variable local called=false.
 | ctx resultante no es null; la variable called=True, indicando que la fábrica personalizada se usó correctamente.
@@ -1203,7 +1203,7 @@ Se captura la excepción.
 
 
 | TC-DCF-02
-| Configure_Throws_WhenNull
+| ConfigureThrowsWhenNull
 | Acción: llamar Configure(null)
 | No existe configuración previa especial; el parámetro de entrada es null.
 | Se verifica que Configure(null) lanza ArgumentNullException.
@@ -1211,7 +1211,7 @@ Se captura la excepción.
 
 
 | TC-DCF-03
-| Reset_RestoresDefaultFactory
+| ResetRestoresDefaultFactory
 | Acción: configurar una fábrica personalizada y luego llamar Reset()
 | La fábrica personalizada marca customCalled=true cuando es usada; luego Reset() restaura la fábrica original.
 | ctx creado no es null; customCalled=False, indicando que la fábrica por defecto fue restaurada.
@@ -1219,7 +1219,7 @@ Se captura la excepción.
 
 
 | TC-DCF-04
-| Create_UsesConfiguredFactory
+| CreateUsesConfiguredFactory
 | Acción: llamar Create() dos veces después de configurar una fábrica personalizada
 | La fábrica personalizada incrementa counter cada vez que se invoca.
 | counter=2 después de dos llamadas a Create(); la fábrica configurada es usada ambas veces.
@@ -1235,42 +1235,42 @@ Se captura la excepción.
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada | Verificaciones | Resultado Esperado
 
 | TC-ELM-01
-| FromCultureCode_Null_ReturnsEnglish
+| FromCultureCodeNullReturnsEnglish
 | cultureCode = null
 | Ninguna configuración especial.
 | Se invoca el método con valor nulo.
 | Se retorna EmailLanguage.English.
 
 | TC-ELM-02
-| FromCultureCode_Empty_ReturnsEnglish
+| FromCultureCodeEmptyReturnsEnglish
 | cultureCode = ""
 | Ninguna configuración especial.
 | Se invoca el método con cadena vacía.
 | Se retorna EmailLanguage.English.
 
 | TC-ELM-03
-| FromCultureCode_Spanish_ReturnsSpanish
+| FromCultureCodeSpanishReturnsSpanish
 | cultureCode = "es-MX"
 | Ninguna configuración especial.
 | Se evalúa el prefijo del código cultural.
 | Se retorna EmailLanguage.Spanish.
 
 | TC-ELM-04
-| FromCultureCode_Portuguese_ReturnsPortuguese
+| FromCultureCodePortugueseReturnsPortuguese
 | cultureCode = "pt-BR"
 | Ninguna configuración especial.
 | Se detecta prefijo "pt".
 | Se retorna EmailLanguage.Portuguese.
 
 | TC-ELM-05
-| FromCultureCode_French_ReturnsFrench
+| FromCultureCodeFrenchReturnsFrench
 | cultureCode = "fr-FR"
 | Ninguna configuración especial.
 | Se detecta prefijo "fr".
 | Se retorna EmailLanguage.French.
 
 | TC-ELM-06
-| FromCultureCode_Unknown_ReturnsEnglish
+| FromCultureCodeUnknownReturnsEnglish
 | cultureCode = "de-DE"
 | Ninguna configuración especial.
 | No coincide con ningún prefijo conocido.
@@ -1285,175 +1285,175 @@ Se captura la excepción.
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada (Mock Setup) | Condiciones de Salida (Verificaciones) | Resultado Esperado
 
 | TC-V-01
-| ValidateName_Empty_ThrowsException
+| ValidateNameEmptyThrowsException
 | name = ""
 | Ninguna configuración especial; se invoca ValidateName con cadena vacía.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el validador rechaza nombres vacíos y reporta error de validación.
 
 | TC-V-02
-| ValidateName_TooShort_ThrowsException
+| ValidateNameTooShortThrowsException
 | name = "A"
 | Ninguna configuración especial; se invoca ValidateName con longitud menor a la mínima.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el validador detecta nombres demasiado cortos y no permite continuar.
 
 | TC-V-03
-| ValidateName_InvalidCharacters_ThrowsException
+| ValidateNameInvalidCharactersThrowsException
 | name = "Mar!o"
 | Ninguna configuración especial; el nombre contiene caracteres no permitidos.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se rechazan nombres con caracteres inválidos para mantener datos limpios.
 
 | TC-V-04
-| ValidateName_Valid_DoesNotThrow
+| ValidateNameValidDoesNotThrow
 | name = "Seth"
 | Ninguna configuración especial; el nombre cumple con longitud y caracteres válidos.
 | Se verifica que no se lanza ninguna excepción.
 | Éxito: el validador acepta nombres válidos y permite continuar el flujo normal.
 
 | TC-V-05
-| ValidateUsername_Empty_ThrowsException
+| ValidateUsernameEmptyThrowsException
 | username = ""
 | Ninguna configuración especial; se invoca ValidateUsername con cadena vacía.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el sistema no permite nombres de usuario vacíos.
 
 | TC-V-06
-| ValidateUsername_TooShort_ThrowsException
+| ValidateUsernameTooShortThrowsException
 | username = "a"
 | Ninguna configuración especial; el username tiene longitud menor a la requerida.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se impide registrar usuarios con nombres demasiado cortos.
 
 | TC-V-07
-| ValidateUsername_InvalidCharacters_ThrowsException
+| ValidateUsernameInvalidCharactersThrowsException
 | username = "seth!!"
 | Ninguna configuración especial; el username contiene símbolos no permitidos.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el sistema rechaza nombres de usuario con caracteres inválidos.
 
 | TC-V-08
-| ValidateUsername_Valid_DoesNotThrow
+| ValidateUsernameValidDoesNotThrow
 | username = "sethMR"
 | Ninguna configuración especial; el username cumple las reglas establecidas.
 | Se verifica que no se lanza ninguna excepción.
 | Éxito: el validador acepta nombres de usuario válidos y no interrumpe el flujo.
 
 | TC-V-09
-| ValidatePassword_Empty_ThrowsException
+| ValidatePasswordEmptyThrowsException
 | password = ""
 | Ninguna configuración especial; se invoca ValidatePassword con cadena vacía.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se rechazan contraseñas vacías para proteger la seguridad.
 
 | TC-V-10
-| ValidatePassword_NoUppercase_ThrowsException
+| ValidatePasswordNoUppercaseThrowsException
 | password = "hola123!"
 | Ninguna configuración especial; la contraseña no contiene letras mayúsculas.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el validador exige mayúsculas en la contraseña para mayor robustez.
 
 | TC-V-11
-| ValidatePassword_NoLowercase_ThrowsException
+| ValidatePasswordNoLowercaseThrowsException
 | password = "HOLA123!"
 | Ninguna configuración especial; la contraseña no contiene letras minúsculas.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el sistema obliga a incluir minúsculas para cumplir las reglas de complejidad.
 
 | TC-V-12
-| ValidatePassword_NoDigit_ThrowsException
+| ValidatePasswordNoDigitThrowsException
 | password = "HolaMundo!"
 | Ninguna configuración especial; la contraseña no contiene dígitos numéricos.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se evita aceptar contraseñas sin números para no debilitar la seguridad.
 
 | TC-V-13
-| ValidatePassword_NoSpecial_ThrowsException
+| ValidatePasswordNoSpecialThrowsException
 | password = "Hola1234"
 | Ninguna configuración especial; la contraseña no tiene caracteres especiales.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el validador obliga al uso de caracteres especiales para aumentar la complejidad.
 
 | TC-V-14
-| ValidatePassword_Valid_DoesNotThrow
+| ValidatePasswordValidDoesNotThrow
 | password = "Hola123!"
 | Ninguna configuración especial; la contraseña cumple todas las reglas de complejidad.
 | Se verifica que no se lanza ninguna excepción.
 | Éxito: se aceptan contraseñas seguras que cumplen todas las políticas definidas.
 
 | TC-V-15
-| ValidateEmail_Empty_ThrowsException
+| ValidateEmailEmptyThrowsException
 | email = ""
 | Ninguna configuración especial; se invoca ValidateEmail con cadena vacía.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el sistema no permite correos vacíos como dato de entrada.
 
 | TC-V-16
-| ValidateEmail_TooLong_ThrowsException
+| ValidateEmailTooLongThrowsException
 | email = 'a' repetido (EmailMaxLength + 1) + "@test.com"
 | Ninguna configuración especial; el correo supera el tamaño máximo permitido.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se rechazan correos demasiado largos para respetar las restricciones de longitud.
 
 | TC-V-17
-| ValidateEmail_InvalidFormat_ThrowsException
+| ValidateEmailInvalidFormatThrowsException
 | email = "seth@@@com"
 | Ninguna configuración especial; el formato del correo es incorrecto.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se bloquean correos con formato inválido para evitar datos corruptos.
 
 | TC-V-18
-| ValidateEmail_Valid_DoesNotThrow
+| ValidateEmailValidDoesNotThrow
 | email = "seth@gmail.com"
 | Ninguna configuración especial; el correo tiene formato correcto y longitud válida.
 | Se verifica que no se lanza ninguna excepción.
 | Éxito: se aceptan correos válidos que cumplen con el formato esperado.
 
 | TC-V-19
-| ValidateUserDto_Null_ThrowsException
+| ValidateUserDtoNullThrowsException
 | dto = null
 | Ninguna configuración especial; se envía un objeto nulo a ValidateUserDto.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el sistema no acepta objetos de usuario nulos en la validación.
 
 | TC-V-20
-| ValidateUserDto_InvalidName_ThrowsException
+| ValidateUserDtoInvalidNameThrowsException
 | dto = { Name="", LastName="Marquez", Email="seth@mail.com", Username="sethMR" }
 | Ninguna configuración especial; solo el nombre es inválido.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se bloquea la creación de usuarios con nombre inválido aunque el resto de datos sea correcto.
 
 | TC-V-21
-| ValidateUserDto_Valid_DoesNotThrow
+| ValidateUserDtoValidDoesNotThrow
 | dto = { Name="Seth", LastName="Marquez", Email="seth@mail.com", Username="sethMR" }
 | Ninguna configuración especial; todos los campos cumplen las reglas.
 | Se verifica que no se lanza ninguna excepción.
 | Éxito: se acepta el DTO de usuario completamente válido para continuar el proceso.
 
 | TC-V-22
-| ValidateLoginRequest_Null_ThrowsException
+| ValidateLoginRequestNullThrowsException
 | request = null
 | Ninguna configuración especial; se pasa solicitud de login nula.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: el sistema no procesa solicitudes de inicio de sesión nulas.
 
 | TC-V-23
-| ValidateLoginRequest_EmptyUsername_ThrowsException
+| ValidateLoginRequestEmptyUsernameThrowsException
 | request = { Username="", Password="123" }
 | Ninguna configuración especial; solo el username es inválido.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se obliga a proporcionar un nombre de usuario para intentar el login.
 
 | TC-V-24
-| ValidateLoginRequest_BadEmail_ThrowsException
+| ValidateLoginRequestBadEmailThrowsException
 | request = { Username="bademail@", Password="123" }
 | Ninguna configuración especial; el username con formato de correo es inválido.
 | Se verifica que se lanza RepositoryValidationException.
 | Excepción controlada: se impide el login con identificadores que no cumplen el formato esperado.
 
 | TC-V-25
-| ValidateLoginRequest_Valid_DoesNotThrow
+| ValidateLoginRequestValidDoesNotThrow
 | request = { Username="sethMR", Password="Abc123!" }
 | Ninguna configuración especial; username y password cumplen las reglas de validación.
 | Se verifica que no se lanza ninguna excepción.
@@ -1468,7 +1468,7 @@ Se captura la excepción.
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada (Mock Setup) | Condiciones de Salida (Verificaciones) | Resultado Esperado
 
 | TC-DBOC-01
-| Trip_FirstCall_ExecutesAllActions
+| TripFirstCallExecutesAllActions
 | ex = new Exception("DB down")
 | el coordinador no ha sido activado previamente.
 | Se invoca Trip por primera vez. +
@@ -1478,14 +1478,14 @@ Se fuerzan las desconexiones de sesiones activas y sesiones invitadas.
 | Éxito: ante la primera detección de caída de base de datos, el sistema notifica y desconecta correctamente a todos los clientes.
 
 | TC-DBOC-02
-| Trip_CalledTwice_OnlyExecutesOnce
+| TripCalledTwiceOnlyExecutesOnce
 | ex = new Exception("DB down")
 | El método Trip se invoca dos veces consecutivas sin reiniciar el estado interno.
 | Se verifica que la notificación (Telegram) solo se envía una vez.
 | Éxito: el coordinador evita ejecutar acciones duplicadas ante múltiples detecciones de la misma caída.
 
 | TC-DBOC-03
-| Trip_WhenTelegramThrows_DoesNotThrow
+| TripWhenTelegramThrowsDoesNotThrow
 | ex = new Exception("DB down")
 | Ninguna configuración especial; 
 | Se invoca Trip. +
@@ -1493,7 +1493,7 @@ Se verifica que no se propaga ninguna excepción al exterior.
 | Excepción controlada: una falla en el servicio de notificaciones no interrumpe el manejo de la caída de base de datos.
 
 | TC-DDBOCB-04
-| Trip_WhenDisconnectSessionsThrows_DoesNotThrow
+| TripWhenDisconnectSessionsThrowsDoesNotThrow
 | ex = new Exception("DB down")
 | Ninguna configuración especial; 
 | Se invoca Trip. +
@@ -1501,7 +1501,7 @@ Se verifica que el método no lanza excepciones.
 | Excepción controlada: errores al desconectar sesiones no afectan la estabilidad del coordinador.
 
 | TC-DBOC-05
-| Trip_WhenInnerExceptionOccurs_LogsError
+| TripWhenInnerExceptionOccursLogsError
 | ex = new Exception("DB down")
 | El envío a Telegram lanza una excepción interna simulada.
 | Se invoca Trip. +
@@ -1517,7 +1517,7 @@ Se verifica que el error interno es registrado mediante el logger.
 | ID Caso | Nombre / Escenario | Entradas | Condiciones de Entrada (Mock Setup) | Condiciones de Salida (Verificaciones) | Resultado Esperado
 
 | TC-RM-01
-| SaveMatchResult_UserColorMapNull_ThrowsArgumentException
+| SaveMatchResultUserColorMapNullThrowsArgumentException
 | userColorMap = null, winnerUsername = "Seth"
 | Ninguna configuración especial; 
 | Se invoca SaveMatchResult con userColorMap nulo. +
@@ -1525,7 +1525,7 @@ Se captura la excepción.
 | Excepción controlada: se lanza ArgumentException indicando que userColorMap no puede ser nulo.
 
 | TC-RM-02
-| SaveMatchResult_UserColorMapEmpty_ThrowsArgumentException
+| SaveMatchResultUserColorMapEmptyThrowsArgumentException
 | userColorMap = {}, winnerUsername = "Seth"
 | Ninguna configuración especial; 
 | Se invoca SaveMatchResult con un diccionario vacío. +
@@ -1533,7 +1533,7 @@ Se captura la excepción.
 | Excepción controlada: se lanza ArgumentException cuando no hay jugadores registrados.
 
 | TC-RM-03
-| SaveMatchResult_WinnerUsernameNull_ThrowsArgumentException
+| SaveMatchResultWinnerUsernameNullThrowsArgumentException
 | userColorMap con un jugador, winnerUsername = null
 | El contexto no requiere configuración especial.
 | Se invoca SaveMatchResult con winnerUsername nulo. +
@@ -1541,7 +1541,7 @@ Se valida el parámetro de la excepción.
 | Excepción controlada: se lanza ArgumentException por nombre de ganador inválido.
 
 | TC-RM-04
-| SaveMatchResult_WinnerUsernameEmpty_ThrowsArgumentException
+| SaveMatchResultWinnerUsernameEmptyThrowsArgumentException
 | userColorMap con un jugador, winnerUsername = ""
 | El repositorio se ejecuta con un contexto mockeado.
 | Se invoca el método con nombre de ganador vacío. +
@@ -1549,7 +1549,7 @@ Se captura la excepción.
 | Excepción controlada: se evita registrar partidas sin ganador válido.
 
 | TC-RM-05
-| SaveMatchResult_ProfileNotFound_ThrowsUserProfileNotFound
+| SaveMatchResultProfileNotFoundThrowsUserProfileNotFound
 | userColorMap = { "Seth" }, winnerUsername = "Seth"
 | perfiles está vacío. +
 partidas y participantes_partida están inicializados.
@@ -1558,7 +1558,7 @@ Se lanza RepositoryValidationException.
 | Excepción controlada: si no existe el perfil del jugador, se lanza UserProfileNotFound.
 
 | TC-RM-06
-| SaveMatchResult_ValidInput_CreatesMatchAndParticipants
+| SaveMatchResultValidInputCreatesMatchAndParticipants
 | userColorMap = { "Seth", "Ana" }, winnerUsername = "Seth"
 | perfiles contiene ambos usuarios. +
 Listas de partidas y participantes_partida inicializadas.
@@ -1567,7 +1567,7 @@ Se verifica que se crean dos participantes.
 | Éxito: se registra la partida y se guardan los participantes correctamente.
 
 | TC-RM-07
-| SaveMatchResult_WinnerAssignedPositionOne
+| SaveMatchResultWinnerAssignedPositionOne
 | userColorMap con dos jugadores, winnerUsername = "Seth"
 | perfiles contiene ambos usuarios. +
 participantes_partida es una lista vacía inicial.
@@ -1576,7 +1576,7 @@ Se valida que el ganador tenga posicion_final = 1.
 | Éxito: el ganador de la partida siempre queda registrado en la primera posición.
 
 | TC-RM-08
-| SaveMatchResult_FirstSaveChangesFails_ThrowsDatabaseUnavailable
+| SaveMatchResultFirstSaveChangesFailsThrowsDatabaseUnavailable
 | userColorMap válido, winnerUsername válido
 | Ninguna configuración especial; 
 | Se invoca SaveMatchResult. +
@@ -1584,7 +1584,7 @@ Se captura la excepción del repositorio.
 | Excepción controlada: fallo inicial de persistencia se traduce en DatabaseUnavailable.
 
 | TC-RM-09
-| SaveMatchResult_SecondSaveChangesFails_ThrowsDatabaseUnavailable
+| SaveMatchResultSecondSaveChangesFailsThrowsDatabaseUnavailable
 | userColorMap válido, winnerUsername válido
 | Ninguna configuración especial; 
 | Se ejecuta el método completo hasta el segundo guardado. +
@@ -1592,7 +1592,7 @@ Se captura la excepción.
 | Excepción controlada: errores posteriores de base de datos también se encapsulan como DatabaseUnavailable.
 
 | TC-RM-10
-| SaveMatchResult_SaveChangesValidationFails_ThrowsUnknownError
+| SaveMatchResultSaveChangesValidationFailsThrowsUnknownError
 | userColorMap válido, winnerUsername válido
 | Ninguna configuración especial; 
 | Se ejecuta SaveMatchResult. +
